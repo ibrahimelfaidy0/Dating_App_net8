@@ -17,19 +17,42 @@ builder.Services.AddDbContext<AppDbcontext>(options=>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+ builder.Services.AddCors(options =>
+ {
+     options.AddPolicy("AllowAngularApp", policy =>
+         policy.AllowAnyHeader()
+             .AllowAnyOrigin()
+             .AllowAnyMethod());
+ });
+
+
+// builder.Services.AddCors();
+
+
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
+// Configure middleware
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+ app.UseCors("AllowAngularApp"); // Apply the CORS policy here
+
+
+// app.UseCors(x=>x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
+// app.UseCors(x=>x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
 
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+
+
+
+
+

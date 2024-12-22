@@ -14,40 +14,53 @@ namespace api.Controllers
 
     [ApiController]
     [Route("api/[Controller]")]
-    public class UsersController(AppDbcontext context):ControllerBase
+    public class UsersController(AppDbcontext context) : ControllerBase
     {
-       
-       private AppDbcontext _context=context;
-     
-       
 
-       
+        private AppDbcontext _context = context;
 
 
-        [HttpGet]
-        public async Task< ActionResult<IEnumerable<AppUser>>>  GetUsers()
+
+
+
+
+
+        // [HttpGet]
+        // public async Task<ActionResult<string>> GetUsers()
+        // {
+
+        //     return Ok("hi2");
+        // }
+
+
+
+              [HttpGet]
+
+           public  ActionResult<IEnumerable<AppUser>> GET()
+           {
+
+              List<AppUser> users=  _context.Users.ToList();
+
+
+                 return Ok(users);
+           }              
+
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<AppUser>> getUserById(int id)
         {
-                List<AppUser> users=await  _context.Users.ToListAsync();
 
-                return Ok(users) ;
-        }
+            AppUser user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 
-        [HttpGet("{id:int}")]  
-       
-        public async Task< ActionResult<AppUser>> getUserById(int id)
-        {
-
-            AppUser user= await  _context.Users.FirstOrDefaultAsync(u=>u.Id==id);
-
-            if(user!=null)
+            if (user != null)
             {
                 return Ok(user);
             }
             else
             {
-                return  BadRequest("no user with this id");
+                return BadRequest("no user with this id");
             }
         }
-        
+
     }
 }

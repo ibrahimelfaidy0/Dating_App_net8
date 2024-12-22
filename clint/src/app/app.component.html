@@ -1,0 +1,96 @@
+
+
+
+
+<div class="text-center">
+          hello
+</div>
+
+
+
+
+ <i class="fas fa-heart"></i>
+
+<div>
+
+  <ul>
+
+    @for (user of users; track user.id) {
+      
+      <li>
+          {{user.id}}
+
+      </li>
+      
+    }
+    
+  </ul>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<div *ngIf="users && users.length > 0; else noUsers">
+    <ul>
+      <li *ngFor="let user of users">
+         
+        <strong>ID:</strong> {{ user.id }} - <strong>Name:</strong> {{ user.name }}
+         
+
+      </li>
+    </ul>
+  </div>
+  <ng-template #noUsers>
+    <p>No users available.</p>
+  </ng-template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div *ngIf="users &&users.length>=0;  else nousersexist" >
+
+           <ul>
+               <li   *ngFor="let user of users"  >
+                     {{user.id}}
+               </li>
+
+
+           </ul>
+
+  </div>
+
+
+  <ng-template    #nousersexist >
+       no users exist 
+  </ng-template>
+   
+
+
+
+

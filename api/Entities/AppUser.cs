@@ -10,10 +10,5 @@ namespace api.Entities
         public int Id { get; set; }
 
         public required string Name { get; set; }   
-
-        public required int  age { get; set; }   
-
-
-        
     }
 }
