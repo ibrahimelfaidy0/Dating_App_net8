@@ -8,13 +8,13 @@ using api.Entities;
 using api.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace api.Controllers
 {
 
-    [ApiController]
-    [Route("api/[Controller]")]
-    public class UsersController(AppDbcontext context) : ControllerBase
+    [Authorize]
+    public class UsersController(AppDbcontext context) : BaseApiController
     {
 
         private AppDbcontext _context = context;
@@ -33,7 +33,7 @@ namespace api.Controllers
         // }
 
 
-
+              [AllowAnonymous]
               [HttpGet]
 
            public  ActionResult<IEnumerable<AppUser>> GET()
@@ -45,7 +45,8 @@ namespace api.Controllers
                  return Ok(users);
            }              
 
-
+        
+        [Authorize]
         [HttpGet("{id:int}")]
         public async Task<ActionResult<AppUser>> getUserById(int id)
         {
@@ -58,9 +59,23 @@ namespace api.Controllers
             }
             else
             {
-                return BadRequest("no user with this id");
+                return BadRequest("no user with thiss id");
             }
         }
+
+        
+
+        [HttpPost]
+        public async Task<IActionResult>   adduser([FromBody]AppUser newuser)
+        {
+            _context.Users.Add(newuser);
+            _context.SaveChanges();
+
+            return Ok();
+
+        } 
+
+
 
     }
 }
